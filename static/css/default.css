@@ -1,0 +1,5 @@
+@media (min-device-width: 520px){
+    /* 공통 */
+    input { border-radius: 5px; border:1px solid lightgray; padding:7px; }
+    button { border-radius:5px; border:1px solid black; background:white;}
+}
