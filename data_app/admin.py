@@ -7,6 +7,7 @@ from .forms import ChampionForm
 
 class ChampionAdmin(admin.ModelAdmin):
     form = ChampionForm
+    list_display = ('champion_name', 'champion_brood', 'grade1', 'grade6', 'grade11', 'grade20')
 
     fieldsets = [
         (None,               {'fields': ['champion_key', 'champion_name', 'champion_brood', 'champion_title']}),
