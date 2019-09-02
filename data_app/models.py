@@ -1,11 +1,13 @@
 from django.db import models
 
 # Create your models here.
+from django.utils import timezone
 
 
 class Champion(models.Model):
     champion_key = models.IntegerField(default=None, null=True, blank=True)
     champion_name = models.CharField(default=None, null=True, blank=True, max_length=20)
+    champion_english_name = models.CharField(default=None, null=True, blank=True, max_length=20)
     champion_brood = models.CharField(default=None, null=True, blank=True, max_length=50)
     champion_title = models.CharField(default=None, null=True, blank=True, max_length=50)
 
@@ -42,3 +44,23 @@ class Champion(models.Model):
     
     class Meta:
         db_table = 'data_champion'
+
+
+class Summoner(models.Model):
+    account_id = models.CharField(default=None, null=True, blank=True, max_length=200)
+    summoner_name = models.CharField(default=None, null=True, blank=True, max_length=50)
+    tier = models.CharField(default=None, null=True, blank=True, max_length=20)
+    refreshed_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
+
+
+class RankGameResult(models.Model):
+    summoner = models.ForeignKey(Summoner, on_delete=models.CASCADE)
+    champion = models.ForeignKey(Champion, on_delete=models.CASCADE)
+    win = models.IntegerField(default=None, null=True, blank=True)
+    lose = models.IntegerField(default=None, null=True, blank=True)
+    kills = models.IntegerField(default=None, null=True, blank=True)
+    deaths = models.IntegerField(default=None, null=True, blank=True)
+    assists = models.IntegerField(default=None, null=True, blank=True)
+    games = models.IntegerField(default=None, null=True, blank=True)
+    winning_rate = models.IntegerField(default=None, null=True, blank=True)
+    average = models.FloatField(default=None, null=True, blank=True)
