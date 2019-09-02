@@ -1,0 +1,30 @@
+{% include 'main/header.html' %}
+<h1>{{summoner.summoner_name}}</h1>
+
+<table>
+    <tr>
+        <th>챔피언</th>
+        <th>게임수</th>
+        <th>승/패</th>
+        <th>승률</th>
+        <th>킬</th>
+        <th>데스</th>
+        <th>어시</th>
+        <th>평점</th>
+    </tr>
+{% for result in rank_result %}
+    <tr>
+        <td>{{result.champion.champion_name}}</td>
+        <td>{{result.games}}</td>
+        <td>{{result.win}} / {{result.lose}}</td>
+        <td>{{result.winning_rate}}%</td>
+        <td>{{result.kills}}</td>
+        <td>{{result.deaths}}</td>
+        <td>{{result.assists}}</td>
+        <td>{{result.average|default:'Perfect'}}</td>
+    </tr>
+
+{% endfor %}
+</table>
+
+{% include 'main/footer.html' %}
