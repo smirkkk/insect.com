@@ -4,6 +4,7 @@
 <table>
     <tr>
         <th>챔피언</th>
+        <th>얼굴</th>
         <th>게임수</th>
         <th>승/패</th>
         <th>승률</th>
@@ -15,6 +16,7 @@
 {% for result in rank_result %}
     <tr>
         <td>{{result.champion.champion_name}}</td>
+        <td><img src="http://ddragon.leagueoflegends.com/cdn/9.17.1/img/champion/{{result.champion.champion_english_name}}.png"></td>
         <td>{{result.games}}</td>
         <td>{{result.win}} / {{result.lose}}</td>
         <td>{{result.winning_rate}}%</td>
