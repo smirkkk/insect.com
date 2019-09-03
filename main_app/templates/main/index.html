@@ -1,18 +1,15 @@
+{% load staticfiles%}
 {% include 'main/header.html' %}
 
-<h1>벌레.com</h1>
-<input name="summoner_name" placeholder="벌레.. 아니 소환사 이름">
-<button id="search_button">분석</button>
-
-<script>
-    $('#search_button').click(function(){
-        if($('input[name=summoner_name]').val() == ''){
-            alert('소환사 이름을 입력해주세요.');
-        }
-        else{
-            summoner = $('input[name=summoner_name]').val();
-            location.href = '/search?summoner_name=' + summoner;
-        }
-    });
-</script>
+<div class="content" id="index_div">
+    <div id="main_img_div">
+        <img src="{% static 'img/tmp.png' %}">
+    </div>
+    <div id="search_div">
+        <form method="GET" action="{% url 'search' %}">
+            <input id="summoner_name_input" name="summoner_name" placeholder="벌레.. 아니 소환사 이름" required>
+            <button type="submit" id="search_button">분석</button>
+        </form>
+    </div>
+</div>
 {% include 'main/footer.html' %}

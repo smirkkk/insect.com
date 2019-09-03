@@ -1,5 +1,29 @@
 @media (min-device-width: 520px){
     /* 공통 */
+    body { background: #6fab72; }
+    #footer {vertical-align: baseline; height:60px; margin:200px auto 0 auto; text-align:center; width:95%; color:white;}
+
     input { border-radius: 5px; border:1px solid lightgray; padding:7px; }
     button { border-radius:5px; border:1px solid black; background:white;}
+    #menu_button { border:none; background: transparent; position:fixed; right:10px; top:10px; }
+    #logo_img { width:180px; }
+
+    /* 모바일과 분리 */
+    #mobile_menu_button {display:none;}
+
+    /* sidebar */
+    .sidenav { width:20%; }
+    .sidenav .closebtn { text-decoration: none; font-size: 25px; color: #818181; display: block; transition: 0.3s; }
+    .sidenav .closebtn:hover { color: black; cursor:pointer; }
+    .sidenav .closebtn { position: absolute; top: 5; right: 25px; font-size: 36px; margin-left: 50px; }
+
+    /* index */
+    .content#index_div { margin:auto; clear:both; display:block; width:50%; }
+    .content#index_div #main_img_div { margin:150px auto 75px auto; width:100%; height:300px; background:lightgray; }
+    .content#index_div #main_img_div img { width:100%; height:100%; }
+
+    .content#index_div #search_div { height:60px; }
+    .content#index_div #search_div #summoner_name_input { width:85%; float:left; height:50px; padding: 0 0 0 15px; font-size:16px;}
+    .content#index_div #search_div #search_button { width:10%; float:right; height:52px; font-size:16px; border:4px solid white; transition:0.3s;}
+    .content#index_div #search_div #search_button:hover { cursor:pointer; color:white; background:#6fab72;}
 }
