@@ -12,7 +12,10 @@ class Profile(models.Model):
 
 
 class NicknameEmotion(models.Model):
-    emotion = models.CharField(max_length=10, default=None, null=True, blank=True)
+    emotion = models.CharField(max_length=10, default=None, null=True, blank=True, unique=True)
+
+    def __str__(self):
+        return self.emotion
 
     class Meta:
         db_table = 'account_nick_emotion'
