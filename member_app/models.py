@@ -9,3 +9,10 @@ class Profile(models.Model):
 
     class Meta:
         db_table = 'account_profile'
+
+
+class NicknameEmotion(models.Model):
+    emotion = models.CharField(max_length=10, default=None, null=True, blank=True)
+
+    class Meta:
+        db_table = 'account_nick_emotion'
