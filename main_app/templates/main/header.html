@@ -32,9 +32,12 @@
     <div id="mySidenav" class="sidenav">
         <a class="closebtn" onclick="closeNav()">&times;</a>
         <ul>
-            <li><a href="/accounts/login/">로그인</a></li>
-            <li><a href="/accounts/signup/">회원가입</a></li>
+            {% if user.is_authenticated %}
+            <li><b>{{user.profile.nickname}}</b>님 안녕하세요 ㅋ</li>
             <li><a href="/accounts/logout/">로그아웃</a></li>
+            {% else %}
+            <li><a href="/accounts/login/">로그인</a></li>
+            {% endif %}
         </ul>
         <div id="bottom_space"></div>
     </div>
