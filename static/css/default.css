@@ -1,12 +1,15 @@
 @media (min-device-width: 520px){
     /* 공통 */
-    body { background: #6fab72; }
+    body { background: #6fab72; margin:0;}
+    section#head { position:fixed; top:0; height:60px; width:100%; }
     #footer {vertical-align: baseline; height:60px; margin:200px auto 0 auto; text-align:center; width:95%; color:white;}
 
     input { border-radius: 5px; border:1px solid lightgray; padding:7px; }
     button { border-radius:5px; border:1px solid black; background:white;}
     #menu_button { border:none; background: transparent; position:fixed; right:10px; top:10px; }
-    #logo_img { width:180px; }
+    #menu_button:hover,
+    #logo_img:hover { cursor:pointer; }
+    #logo_img { width:180px; position:fixed; top:10px; left:10px;}
 
     /* 모바일과 분리 */
     #mobile_menu_button {display:none;}

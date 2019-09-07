@@ -5,11 +5,6 @@
     <meta charset="UTF-8">
     <title>으악 벌레다!!</title>
 
-    <link rel="stylesheet" href="{% static 'css/default.css' %}">
-    <link rel="stylesheet" href="{% static 'css/mobile.css' %}">
-    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
-    <script type="text/javascript" charset="utf-8" src="{% static 'js/sidebar.js' %}"></script>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
@@ -17,6 +12,13 @@
 
     <!-- favicon -->
     <link rel="icon" href="{% static 'img/favicon.ico' %}">
+
+
+    <link rel="stylesheet" href="{% static 'css/default.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mobile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+    <script type="text/javascript" charset="utf-8" src="{% static 'js/sidebar.js' %}"></script>
+    <script type="text/javascript" charset="utf-8" src="{% static 'js/default.js' %}"></script>
 </head>
 <body>
 <section id="head">
@@ -43,4 +45,8 @@
     </div>
     <div class="overlay" onclick="closeNav()"></div>
 </div>
-
+<script>
+$('#logo_img').click(function(){
+    location.href = '/';
+});
+</script>
