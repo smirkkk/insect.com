@@ -1,0 +1,79 @@
+{% load staticfiles %}
+{% load rank_record %}
+{% include 'main/detail_header.html' %}
+<link rel="stylesheet" href="{% static 'css/result.css' %}">
+<link rel="stylesheet" href="{% static 'css/mobile_result.css' %}">
+
+<div id="summoner_info_div">
+    <img id="summoner_profile_pic" src="http://ddragon.leagueoflegends.com/cdn/9.17.1/img/profileicon/4239.png">
+    <div id="summoner_fact_div">
+        <h1 id="summoner_name">{{summoner.summoner_name}}</h1><button id="refresh_button"><i style="font-size:20px;" class="fas fa-sync"></i></button><br><br>
+        <h3 id="summoner_level">Lv 189 | 벌레티넘 1</h3>
+        <div id="summoner_badge">
+            <span class="badge_bad">벌레</span>
+            <span class="badge_soso">쓰레기</span>
+        </div>
+    </div>
+    <div id="summoner_score">
+        <span style="margin:0; font-size:20px;">소환사 평점</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>참여 : </span><span style="font-weight:bold;">9999</span><br>
+        <span id="score_display">★☆☆☆☆</span>&nbsp;&nbsp;<span id="score_digit">(0.9)</span><br><br>
+        <form style="margin:12px 0 0 0;">
+            <select style="border:none; font-size:24px; height:30px;">
+                <option selected>☆☆☆☆☆</option>
+                <option>★☆☆☆☆</option>
+                <option>★★☆☆☆</option>
+                <option>★★★☆☆</option>
+                <option>★★★★☆</option>
+                <option>★★★★★</option>
+            </select>
+            <button id="score_button"><span>평가하기</span></button>
+        </form>
+
+    </div>
+</div>
+
+
+<div id="result_import" class="summoner">
+    <ul class="review_tab">
+        <li id="champion_tab" class="deactivate">챔피언 리뷰</li>
+        <li id="summoner_tab" class="deactivate">소환사 리뷰</li>
+    </ul>
+    <br>
+    <br>
+    <div id="chma">
+        {% include 'search/result.html' %}
+    </div>
+    <div id="summ" style="display:none;">
+        {% include 'search/review.html' %}
+    </div>
+</div>
+
+
+
+<script>
+$('#summoner_tab.deactivate').on('click', function(){
+        $('#chma').css('display', 'none');
+        $('#summ').removeAttr('style');
+
+        $('#champion_tab').addClass('deactivate')
+        $('#champion_tab').removeClass('activate')
+
+        $('#summoner_tab').addClass('activate')
+        $('#summoner_tab').removeClass('deactivate')
+});
+
+$('#champion_tab.deactivate').on('click', function(){
+        $('#summ').css('display', 'none');
+        $('#chma').removeAttr('style');
+
+        $('#champion_tab').addClass('activate')
+        $('#champion_tab').removeClass('deactivate')
+
+        $('#summoner_tab').addClass('deactivate')
+        $('#summoner_tab').removeClass('activate')
+});
+$('#champion_tab.deactivate').click().trigger();
+
+</script>
+
+{% include 'main/footer.html' %}

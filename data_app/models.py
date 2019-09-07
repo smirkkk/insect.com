@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
@@ -52,6 +53,9 @@ class Summoner(models.Model):
     tier = models.CharField(default=None, null=True, blank=True, max_length=20)
     refreshed_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
 
+    class Meta:
+        db_table = 'data_summoner'
+
 
 class RankGameResult(models.Model):
     summoner = models.ForeignKey(Summoner, on_delete=models.CASCADE)
@@ -64,3 +68,25 @@ class RankGameResult(models.Model):
     games = models.IntegerField(default=None, null=True, blank=True)
     winning_rate = models.IntegerField(default=None, null=True, blank=True)
     average = models.FloatField(default=None, null=True, blank=True)
+
+    class Meta:
+        db_table = 'data_rank_result'
+
+
+class Comment(models.Model):
+    summoner = models.ForeignKey(Summoner, on_delete=models.CASCADE)
+    comment = models.TextField(max_length=300, default=None, null=True, blank=True)
+    password = models.TextField(max_length=30, default=None, null=True, blank=True)
+    writer = models.ForeignKey(User, default=None, null=True, blank=True, on_delete=models.CASCADE)  # 로그인 한 경우
+    ip_addr = models.TextField(max_length=16, null=True, blank=True, default=None)  # 로그인 안 한 경우
+    nickname = models.TextField(max_length=50, null=True, blank=True, default=None)  # 로그인 안 한 경우
+    written_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
+    like = models.IntegerField(default=0, null=True, blank=True)
+    dislike = models.IntegerField(default=0, null=True, blank=True)
+    total = models.IntegerField(default=0, null=True, blank=True)
+
+    def __str__(self):
+        return self.comment
+
+    class Meta:
+        db_table = 'data_comment'

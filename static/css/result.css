@@ -1,0 +1,53 @@
+@media (min-device-width: 520px){
+    section#head { height:70px; border-bottom:solid 2px lightgray; background:white; }
+    #menu_button { border:none; background: transparent; position:fixed; right:10px; top:15px; }
+    #menu_button:hover,
+    #logo_img { cursor:pointer; }
+    #summoner_info_div{ background:white; margin:150px auto; width:65%; height:150px; border-radius:10px; padding:30px;}
+
+    #summoner_info_div #summoner_profile_pic{ height:100%; float:left;}
+
+    #summoner_info_div #summoner_fact_div {width:50%; height:100%; float:left; margin: 0 0 0 25px;}
+    #summoner_info_div #summoner_fact_div #summoner_name { display:inline; margin: 0 0 20px 0;}
+    #summoner_info_div #summoner_fact_div #refresh_button { border:none; background:#2196f3; color:white; position:absolute; margin:8px; height:30px;}
+    #summoner_info_div #summoner_fact_div #summoner_level { margin: 0;}
+    #summoner_info_div #summoner_fact_div #summoner_badge { height:40px; font-size:20px; margin:30px 0 0 0;}
+    #summoner_info_div #summoner_fact_div #summoner_badge .badge_bad { margin: 0 5px 0 0; background:red; color:white; border-radius:5px; padding:5px;}
+    #summoner_info_div #summoner_fact_div #summoner_badge .badge_soso { margin: 0 5px 0 0; background:orange; color:white; border-radius:5px; padding:5px;}
+
+    #summoner_info_div #summoner_score { float:right; height:100%; margin:0 50px 0 0;}
+    #summoner_info_div #summoner_score #score_display { color:red; font-size:40px; }
+    #summoner_info_div #summoner_score #score_digit {  }
+    #summoner_info_div #summoner_score #score_button { font-size:18px; border:none; background:#2196f3; color:white; padding:5px;}
+
+    #result_import { margin:auto; width:65%; }
+
+    #result_import .review_tab { list-style:none; margin:0; padding:0;}
+    #result_import .review_tab li { float:left; background:gray; height:42px; line-height:42px; padding:0 15px; border-top-left-radius:5px; border-top-right-radius:5px;  color:white;}
+    #result_import .review_tab li.activate { float:left; background:white; height:42px; line-height:42px; padding:0 15px; border-top-left-radius:5px; border-top-right-radius:5px;  color:black; font-weight:bold;}
+    #result_import .review_tab:hover { cursor:pointer;}
+
+    #champion_result_list_div { background:white; margin: auto; width:100%; border-radius:10px; border-top-left-radius:0px; padding:30px;}
+    #champion_result_list_div .champion_result_div { padding:30px; clear:both; display:block; height:300px;}
+    #champion_result_list_div .champion_result_div img { float:left;}
+    #champion_result_list_div .champion_result_div .champion_status { height:120px; margin-bottom:50px; }
+    #champion_result_list_div .champion_result_div .champion_status .champion_title { margin:0 0 20px 20px; display:inline;}
+    #champion_result_list_div .champion_result_div .champion_status span { width:150px; text-align:center; display:inline-block;}
+    #champion_result_list_div .champion_result_div .champion_status .winning_rate,
+    #champion_result_list_div .champion_result_div .champion_status .average { font-size: 24px;}
+
+    #champion_result_list_div .champion_result_div .champion_status .kda_table { width:50%; text-align:center; float:right; margin:4% 5% 0 0;}
+    #champion_result_list_div .champion_result_div .champion_status .kda_table td{ font-size:24px;}
+
+    #summoner_comment_list_div { background:white; margin: auto; width:100%; border-radius:10px; border-top-left-radius:0px; padding:30px;}
+    #summoner_comment_list_div #comment_write_div { height:150px; }
+    #summoner_comment_list_div #comment_textarea{ width:85%; float:left; margin-right:3.3em;}
+    #summoner_comment_list_div #submit_comment { width:10%; float:left; height:80px; background:#2196f3; border:#2196f3 1px solid; color:white; font-size:18px; transition:0.3s;}
+    #summoner_comment_list_div #submit_comment:hover { background:white; color:#2196f3; font-weight:bold; cursor:pointer;}
+
+    #summoner_comment_list_div #comment_list_div { width:100%; }
+    #summoner_comment_list_div #comment_list_div .comment { width:100%; height:100px; padding:25px 0; border-bottom:1px solid gray;}
+    #summoner_comment_list_div #comment_list_div .writer { width:25%; float:left; }
+    #summoner_comment_list_div #comment_list_div .comment_detail { width:65%; float:left; }
+    #summoner_comment_list_div #comment_list_div .comment_set { width:10%; float:left; }
+}

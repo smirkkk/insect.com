@@ -74,4 +74,4 @@ class SearchView(View):
             context['summoner'] = summoner
             context['rank_result'] = RankGameResult.objects.filter(summoner=summoner)
 
-        return render(request=self.request, context=context, template_name='search/result.html')
+        return render(request=self.request, context=context, template_name='search/summoner.html')

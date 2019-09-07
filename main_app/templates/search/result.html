@@ -1,32 +1,91 @@
-{% include 'main/header.html' %}
-<h1>{{summoner.summoner_name}}</h1>
+{% load staticfiles %}
+{% load rank_record %}
 
-<table>
-    <tr>
-        <th>챔피언</th>
-        <th>얼굴</th>
-        <th>게임수</th>
-        <th>승/패</th>
-        <th>승률</th>
-        <th>킬</th>
-        <th>데스</th>
-        <th>어시</th>
-        <th>평점</th>
-    </tr>
-{% for result in rank_result %}
-    <tr>
-        <td>{{result.champion.champion_name}}</td>
-        <td><img src="http://ddragon.leagueoflegends.com/cdn/9.17.1/img/champion/{{result.champion.champion_english_name}}.png"></td>
-        <td>{{result.games}}</td>
-        <td>{{result.win}} / {{result.lose}}</td>
-        <td>{{result.winning_rate}}%</td>
-        <td>{{result.kills}}</td>
-        <td>{{result.deaths}}</td>
-        <td>{{result.assists}}</td>
-        <td>{{result.average|default:'Perfect'}}</td>
-    </tr>
+<div id="champion_result_list_div">
 
-{% endfor %}
-</table>
+    {% for result in rank_result %}
+    <div class="champion_result_div">
+        <img src="http://ddragon.leagueoflegends.com/cdn/9.17.1/img/champion/{{result.champion.champion_english_name}}.png">
+        <div class="champion_status">
+            <div style="width:30%; text-align:center; float:left;">
+                <h2 class="champion_title">{{result.champion.champion_name}}, {{result.champion.champion_brood}}</h2><br><br>
+                <span class="winning_rate">{{result.winning_rate}}%</span><br>
+                <span class="total_record">{{result.games}}전 {{result.win}}승 {{result.lose}}패</span>
+            </div>
+            <table class="kda_table">
+                <colgroup>
+                    <col style="width:25%;">
+                    <col style="width:25%;">
+                    <col style="width:25%;">
+                    <col style="width:25%;">
+                </colgroup>
+                <tr>
+                    <th>평점</th>
+                    <th>킬</th>
+                    <th>데스</th>
+                    <th>어시스트</th>
+                </tr>
+                <tr>
+                    <td>{{result.average}}</td>
+                    <td>{{result.kills}}</td>
+                    <td>{{result.deaths}}</td>
+                    <td>{{result.assists}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="comment_teemo">
+            <img style="width:120px;" src="{% static 'img/teemo_thumbs_up.png' %}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {% if winning_rate > 59 %}
+                {% if average > 3.99 %}
+                    <span style="line-height:120px;">"{{result.champion.grade1|insert_summoner:summoner}}"</span>
+                {% elif average > 2.99 %}
+            <span style="line-height:120px;">"{{result.champion.grade2|insert_summoner:summoner}}"</span>
+                {% elif average > 1.99 %}
+            <span style="line-height:120px;">"{{result.champion.grade3|insert_summoner:summoner}}"</span>
+                {% elif average > 0.99 %}
+            <span style="line-height:120px;">"{{result.champion.grade4|insert_summoner:summoner}}"</span>
+                {% else %}
+            <span style="line-height:120px;">"{{result.champion.grade5|insert_summoner:summoner}}"</span>
+                {% endif %}
+            {% elif winning_rate > 49 %}
+                {% if average > 3.99 %}
+            <span style="line-height:120px;">"{{result.champion.grade6|insert_summoner:summoner}}"</span>
+                {% elif average > 2.99 %}
+            <span style="line-height:120px;">"{{result.champion.grade7|insert_summoner:summoner}}"</span>
+                {% elif average > 1.99 %}
+            <span style="line-height:120px;">"{{result.champion.grade8|insert_summoner:summoner}}"</span>
+                {% elif average > 0.99 %}
+            <span style="line-height:120px;">"{{result.champion.grade9|insert_summoner:summoner}}"</span>
+                {% else %}
+            <span style="line-height:120px;">"{{result.champion.grade10|insert_summoner:summoner}}"</span>
+                {% endif %}
+            {% elif winning_rate > 39 %}
+                {% if average > 3.99 %}
+            <span style="line-height:120px;">"{{result.champion.grade11|insert_summoner:summoner}}"</span>
+                {% elif average > 2.99 %}
+            <span style="line-height:120px;">"{{result.champion.grade12|insert_summoner:summoner}}"</span>
+                {% elif average > 1.99 %}
+            <span style="line-height:120px;">"{{result.champion.grade13|insert_summoner:summoner}}"</span>
+                {% elif average > 0.99 %}
+            <span style="line-height:120px;">"{{result.champion.grade14|insert_summoner:summoner}}"</span>
+                {% else %}
+            <span style="line-height:120px;">"{{result.champion.grade15|insert_summoner:summoner}}"</span>
+                {% endif %}
+            {% else %}
+                {% if average > 3.99 %}
+            <span style="line-height:120px;">"{{result.champion.grade16|insert_summoner:summoner}}"</span>
+                {% elif average > 2.99 %}
+            <span style="line-height:120px;">"{{result.champion.grade17|insert_summoner:summoner}}"</span>
+                {% elif average > 1.99 %}
+            <span style="line-height:120px;">"{{result.champion.grade18|insert_summoner:summoner}}"</span>
+                {% elif average > 0.99 %}
+            <span style="line-height:120px;">"{{result.champion.grade19|insert_summoner:summoner}}"</span>
+                {% else %}
+            <span style="line-height:120px;">"{{result.champion.grade20|insert_summoner:summoner}}"</span>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
 
-{% include 'main/footer.html' %}
+</div>

@@ -1,0 +1,99 @@
+{% load staticfiles %}
+{% load rank_record %}
+
+<div id="summoner_comment_list_div">
+    <div id="comment_write_div">
+            <input name="summoner" type="hidden" value="{{summoner.id}}">
+            {% if not user.is_authenticated %}
+            <input name="password" type="password" placeholder="비밀번호"><br><br>
+            {% endif %}
+            <textarea id="comment_textarea" name="comment" placeholder="당신의 한 마디가 벌레 한 마리를 구제할 수 있을까요?" rows="5"></textarea>
+            <button type="submit" id="submit_comment">작성</button>
+    </div>
+    <div id="comment_list_div">
+        <span id="order_by_recent" onclick="comment_order_by_recent();">최신순</span>&nbsp;<span class="order_by_like">추천순</span>
+    </div>
+</div>
+
+<script>
+    $('#submit_comment').click(function (e) {
+
+        if ($('input[name=password]').val() == ''){
+            alert('비밀번호를 입력해주세요');
+            return;
+        }
+
+        if ($('textarea[name=comment]').val() == ''){
+            alert('댓글을 입력해주세요');
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: '{% url 'comment_write' %}',
+            data: { 'summoner': {{summoner.id}},
+                    {% if not user.is_authenticated %}
+                    'password' : $('input[name=password]').val(),
+                    {% endif %}
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'comment' : $('textarea[name=comment]').val()
+                  },
+            dataType: "json",
+
+            success: function(response){
+                    alert('작성완료');
+                    $('input[name=password]').val('');
+                    $('textarea[name=comment]').val('');
+                },
+                error: function(request, status, error){
+                    alert('실패했습니다.');
+            },
+        });
+    })
+
+    function comment_order_by_recent(){
+        $.ajax({
+            type: "POST",
+            url: '{% url 'comment_list' %}',
+            data: { 'summoner': {{summoner.id}},
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'order_type' : 'recent'
+                  },
+            dataType: "json",
+
+            success: function(response){
+                    $('.comment').remove();
+                    for(var i in response['comment_list']) {
+                        $('#comment_list_div').append(response['comment_list'][i]);
+                    }
+                },
+                error: function(request, status, error){
+                    alert('실패했습니다.');
+            },
+        });
+    };
+
+    function comment_order_by_like(){
+        $.ajax({
+            type: "POST",
+            url: '{% url 'comment_list' %}',
+            data: { 'summoner': {{summoner.id}},
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'order_type' : 'like'
+                  },
+            dataType: "json",
+
+            success: function(response){
+                    $('.comment').remove();
+                    for(var i in response['comment_list']) {
+                        $('#comment_list_div').append(response['comment_list'][i]);
+                    }
+                },
+                error: function(request, status, error){
+                    alert('실패했습니다.');
+            },
+        });
+    };
+
+    comment_order_by_recent();
+</script>
