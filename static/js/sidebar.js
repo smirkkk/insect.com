@@ -32,17 +32,6 @@ jQuery(function($)
         var submenu = $(".menutitle").next("ul");
         submenu.slideUp();
 
-        $('pre').before('<div class="copy"><button class="copy_button"><p>&nbsp;Copy&nbsp;</p><span class="tooltiptext">Click to Copy</span></button></div>')
-
-        $(document).on('click', '.copy_button', function(){
-            $(this).find('.tooltiptext').text('Copied!')
-            copyToClipboard($(this).parent().next().find('code').text())
-        });
-
-        $(document).on('mouseover', '.copy_button', function(){
-                $(this).find('.tooltiptext').text('Click to Copy')
-        });
-
         $(function(){
             $('#menu_button, #mobile_menu_button').click(function(e){
                 e.stopPropagation();
