@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils import timezone
 
 from data_app.models import Champion
 
@@ -23,7 +24,7 @@ class Profile(models.Model):
                 emotion = random.choice(list(NicknameEmotion.objects.values('emotion')))
                 champ = random.choice(list(Champion.objects.values('champion_name')))
                 nickname = emotion['emotion'] + ' ' + champ['champion_name']
-                if Profile.objects.filter(nickname=nickname).exists():
+                if Profile.objects.filter(nickname=nickname).exists() or NonMemberSession.objects.filter(nickname=nickname).exists():
                     pass
                 else:
                     Profile.objects.create(user=instance, nickname=nickname)
@@ -42,3 +43,12 @@ class NicknameEmotion(models.Model):
 
     class Meta:
         db_table = 'account_nick_emotion'
+
+
+class NonMemberSession(models.Model):
+    ip = models.CharField(max_length=16, default=None, null=True, blank=True, unique=True)
+    nickname = models.CharField(max_length=50, null=True, blank=True, default=None)
+    last_use = models.DateTimeField(default=timezone.now, null=True, blank=True)
+
+    class Meta:
+        db_table = 'account_non_member_session'
