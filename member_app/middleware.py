@@ -25,22 +25,23 @@ class VisitorSessionMiddleware(object):
 
                 # 해당 ip의 세션이 존재하는지 탐색
                 session_object, created = NonMemberSession.objects.get_or_create(ip=ip)
-
                 if created:
                     while True:
                         emotion = random.choice(list(NicknameEmotion.objects.values('emotion')))
                         champ = random.choice(list(Champion.objects.values('champion_name')))
                         nickname = emotion['emotion'] + ' ' + champ['champion_name']
+                        print(nickname)
                         if Profile.objects.filter(nickname=nickname).exists() or NonMemberSession.objects.filter(
                                 nickname=nickname).exists():
                             pass
                         else:
-                            created.nickname = nickname
+                            session_object.nickname = nickname
+                            session_object.save()
                             request.session['nickname'] = nickname
                             request.session['ip'] = ip
                             break
 
-                if session_object:
+                elif not created:
                     session_object.last_use = timezone.now()
                     session_object.save()
                     request.session['nickname'] = session_object.nickname

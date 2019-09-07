@@ -62,8 +62,8 @@ class SearchView(View):
             # for rank_result_champion in result['rank_result'].keys():
             #    self.create_rank_result(result, created)
             #    champion = get_object_or_404(Champion, champion_key=rank_result_champion)
-            context['summoner'] = created
-            context['rank_result'] = RankGameResult.objects.filter(summoner=created)
+            context['summoner'] = summoner
+            context['rank_result'] = RankGameResult.objects.filter(summoner=summoner)
 
         else:
             print('exist')
