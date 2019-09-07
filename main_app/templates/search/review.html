@@ -16,41 +16,6 @@
 </div>
 
 <script>
-    $('#submit_comment').click(function (e) {
-
-        if ($('input[name=password]').val() == ''){
-            alert('비밀번호를 입력해주세요');
-            return;
-        }
-
-        if ($('textarea[name=comment]').val() == ''){
-            alert('댓글을 입력해주세요');
-            return;
-        }
-
-        $.ajax({
-            type: "POST",
-            url: '{% url 'comment_write' %}',
-            data: { 'summoner': {{summoner.id}},
-                    {% if not user.is_authenticated %}
-                    'password' : $('input[name=password]').val(),
-                    {% endif %}
-                    'csrfmiddlewaretoken': '{{ csrf_token }}',
-                    'comment' : $('textarea[name=comment]').val()
-                  },
-            dataType: "json",
-
-            success: function(response){
-                    alert('작성완료');
-                    $('input[name=password]').val('');
-                    $('textarea[name=comment]').val('');
-                },
-                error: function(request, status, error){
-                    alert('실패했습니다.');
-            },
-        });
-    })
-
     function comment_order_by_recent(){
         $.ajax({
             type: "POST",
@@ -94,6 +59,42 @@
             },
         });
     };
+
+    $('#submit_comment').click(function (e) {
+
+        if ($('input[name=password]').val() == ''){
+            alert('비밀번호를 입력해주세요');
+            return;
+        }
+
+        if ($('textarea[name=comment]').val() == ''){
+            alert('댓글을 입력해주세요');
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: '{% url 'comment_write' %}',
+            data: { 'summoner': {{summoner.id}},
+                    {% if not user.is_authenticated %}
+                    'password' : $('input[name=password]').val(),
+                    {% endif %}
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'comment' : $('textarea[name=comment]').val()
+                  },
+            dataType: "json",
+
+            success: function(response){
+                    alert('작성완료');
+                    $('input[name=password]').val('');
+                    $('textarea[name=comment]').val('');
+                    comment_order_by_recent();
+                },
+                error: function(request, status, error){
+                    alert('실패했습니다.');
+            },
+        });
+    })
 
     comment_order_by_recent();
 </script>
