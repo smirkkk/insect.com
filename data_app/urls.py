@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import CommentWriteView, CommentListView
+from .views import CommentWriteView, CommentListView, LikeSubmitView, CommentReportView
 urlpatterns = [
     # path('admin/', admin.site.urls),
     # path('data/', include('data_app.urls')),
     # path('', include('main_app.urls')),
     path('comment/write', CommentWriteView.as_view(), name='comment_write'),
     path('comment/list', CommentListView.as_view(), name='comment_list'),
+    path('comment/report', CommentReportView.as_view(), name='comment_report'),
+
+    path('like/submit', LikeSubmitView.as_view(), name='like_submit'),
 ]

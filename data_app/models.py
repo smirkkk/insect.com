@@ -84,9 +84,36 @@ class Comment(models.Model):
     like = models.IntegerField(default=0, null=True, blank=True)
     dislike = models.IntegerField(default=0, null=True, blank=True)
     total = models.IntegerField(default=0, null=True, blank=True)
+    blind_count = models.IntegerField(default=0, null=True, blank=True)
 
     def __str__(self):
         return self.comment
 
     class Meta:
         db_table = 'data_comment'
+
+
+class CommentReport(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='reported_comment')
+    reporter = models.ForeignKey(User, default=None, null=True, blank=True, on_delete=models.CASCADE)  # 로그인 한 경우
+    ip_addr = models.TextField(max_length=16, null=True, blank=True, default=None)  # 로그인 안 한 경우
+    report_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
+    reason = models.TextField(max_length=200, default=None, null=True, blank=True)
+
+    class Meta:
+        db_table = 'data_comment_report'
+
+
+class Like(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='target_comment')
+    liker = models.ForeignKey(User, default=None, null=True, blank=True, on_delete=models.CASCADE)  # 로그인 한 경우
+    ip_addr = models.TextField(max_length=16, null=True, blank=True, default=None)  # 로그인 안 한 경우
+    liked_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
+    like = models.BooleanField(default=False, null=True, blank=True)
+    dislike = models.IntegerField(default=False, null=True, blank=True)
+
+    class Meta:
+        db_table = 'data_like'
+
+    def __str__(self):
+        return self.comment
