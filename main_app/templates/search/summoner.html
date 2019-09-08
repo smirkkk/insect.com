@@ -16,7 +16,7 @@
     </div>
     <div id="summoner_score">
         <span style="margin:0; font-size:20px;">소환사 평점</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>참여 : </span><span style="font-weight:bold;">9999</span><br>
-        <span id="score_display">★☆☆☆☆</span>&nbsp;&nbsp;<span id="score_digit">(0.9)</span><br><br>
+        <span id="score_display"><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></span>&nbsp;&nbsp;<span id="score_digit">(0.9)</span><br><br>
         <form style="margin:12px 0 0 0;">
             <select style="border:none; font-size:24px; height:30px;">
                 <option selected>☆☆☆☆☆</option>
@@ -33,13 +33,11 @@
 </div>
 
 
+<ul class="review_tab">
+    <li id="champion_tab" class="deactivate">챔피언 리뷰</li>
+    <li id="summoner_tab" class="deactivate">소환사 리뷰</li>
+</ul>
 <div id="result_import" class="summoner">
-    <ul class="review_tab">
-        <li id="champion_tab" class="deactivate">챔피언 리뷰</li>
-        <li id="summoner_tab" class="deactivate">소환사 리뷰</li>
-    </ul>
-    <br>
-    <br>
     <div id="chma">
         {% include 'search/result.html' %}
     </div>

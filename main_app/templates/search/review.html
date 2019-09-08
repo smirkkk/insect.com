@@ -3,15 +3,33 @@
 
 <div id="summoner_comment_list_div">
     <div id="comment_write_div">
-            <input name="summoner" type="hidden" value="{{summoner.id}}">
-            {% if not user.is_authenticated %}
-            <input name="password" type="password" placeholder="비밀번호"><br><br>
-            {% endif %}
-            <textarea id="comment_textarea" name="comment" placeholder="당신의 한 마디가 벌레 한 마리를 구제할 수 있을까요?" rows="5"></textarea>
-            <button type="submit" id="submit_comment">작성</button>
+        <input name="summoner" type="hidden" value="{{summoner.id}}">
+        {% if not user.is_authenticated %}
+        <input name="password" type="password" placeholder="비밀번호"><br><br>
+        {% endif %}
+        <textarea id="comment_textarea" name="comment" placeholder="당신의 한 마디가 벌레 한 마리를 구제할 수 있을까요?" rows="5"></textarea>
+        <button type="submit" id="submit_comment">작성</button>
     </div>
     <div id="comment_list_div">
-        <span id="order_by_recent" onclick="comment_order_by_recent();">최신순</span>&nbsp;<span class="order_by_like">추천순</span>
+        <div class="comment" id="comment_7">
+            <div class="writer">
+                <p style="margin:35px 0px 20px 0px; padding-left:15px;"><span class="tier_C">C&nbsp;</span><span class="comment_writer">역겨운 티모</span><br><span class="written_date">2001-01-11 17:30</span></p>
+            </div>
+            <div class="comment_detail">
+                <span class="comment_text">꽃송이가 꽃송이가 그 꽃 한 송이가</span>
+            </div>
+            <div class="comment_set">
+                <p style="margin-top: 0;margin-bottom: 40%;">
+                    <span class="delete"><i class="fas fa-trash" style="color:gray"></i>&nbsp;삭제</span>&nbsp;&nbsp;
+                    <span class="report" onclick="report_comment(7)"><i class="fas fa-exclamation-triangle" style="color:orange;"></i>&nbsp;신고</span>
+                </p>
+                <p>
+                    <span class="like" onclick="like_submit(7, 'like', 'submit')"><i class="far fa-thumbs-up"></i> <span class="like_count">0</span></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="dislike" onclick="like_submit(7, 'dislike', 'submit')"><i class="far fa-thumbs-down"></i> <span class="dislike_count">0</span></span>
+                </p>
+            </div>
+        </div>
+        <!-- <span id="order_by_recent" onclick="comment_order_by_recent();">최신순</span>&nbsp;<span class="order_by_like">추천순</span>-->
     </div>
 </div>
 
@@ -60,6 +78,65 @@
         });
     };
 
+    function like_submit(comment_id, like_type, method){
+        $.ajax({
+            type: "POST",
+            url: '{% url 'like_submit' %}',
+            data: { 'comment_id': comment_id,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'like_type' : like_type,
+                'method': method
+            },
+            dataType: "json",
+            success: function(response){
+                console.log(response);
+                $('#comment_' + response['comment'] + ' .like_count').text(response['like_count'])
+                $('#comment_' + response['comment'] + ' .dislike_count').text(response['dislike_count'])
+
+                if (response['method'] == 'cancel'){
+                    $('#comment_' + response['comment'] + ' .like').removeClass('liked')
+                    $('#comment_' + response['comment'] + ' .dislike').removeClass('disliked')
+                }
+
+                else if (response['type'] == 'like'){
+                    $('#comment_' + response['comment'] + ' .like').addClass('liked')
+                    $('#comment_' + response['comment'] + ' .like').attr("onclick", "like_submit(7, 'like', 'cancel')")
+                    $('#comment_' + response['comment'] + ' .dislike').removeClass('disliked')
+                    $('#comment_' + response['comment'] + ' .dislike').attr("onclick", "like_submit(7, 'dislike', 'submit')")
+                }
+                else if (response['type'] == 'dislike'){
+                    $('#comment_' + response['comment'] + ' .like').removeClass('liked')
+                    $('#comment_' + response['comment'] + ' .like').attr("onclick", "like_submit(7, 'like', 'submit')")
+                    $('#comment_' + response['comment'] + ' .dislike').addClass('disliked')
+                    $('#comment_' + response['comment'] + ' .dislike').attr("onclick", "like_submit(7, 'dislike', 'cancel')")
+                }
+            },
+            error: function(request, status, error){
+                alert('실패했습니다.');
+            },
+        });
+    };
+
+    function dislike_submit(comment_id){
+         $.ajax({
+            type: "POST",
+            url: '{% url 'like_submit' %}',
+            data: { 'comment_id': comment_id,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'like_type' : 'dislike'
+                  },
+            dataType: "json",
+
+            success: function(response){
+                    alert('yup');
+                },
+                error: function(request, status, error){
+                    alert('실패했습니다.');
+            },
+        });
+    };
+
+
     $('#submit_comment').click(function (e) {
 
         if ($('input[name=password]').val() == ''){
@@ -94,7 +171,34 @@
                     alert('실패했습니다.');
             },
         });
-    })
+    });
 
-    comment_order_by_recent();
+
+    function report_comment(comment_id){
+        reason = prompt('신고 사유를 작성해주세요.', '')
+
+        if (reason == null){
+            return 0;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'comment_report' %}",
+            data: { 'comment_id' : comment_id , 'csrfmiddlewaretoken': '{{ csrf_token }}', 'reason': reason},
+            dataType: "json",
+
+            success: function(response){
+                if(response.status == 'existed'){
+                    alert('이미 신고하셨습니다.');
+                } else if (response.status == 'created'){
+                    alert('신고가 접수되었습니다.');
+                }
+            },
+            error: function(request, status, error){
+                alert("실패했습니다.")
+            },
+        });
+    };
+
+    //comment_order_by_recent();
 </script>
