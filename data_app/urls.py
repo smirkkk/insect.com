@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import CommentWriteView, CommentListView, LikeSubmitView, CommentReportView
+from .views import CommentWriteView, CommentListView, LikeSubmitView, CommentReportView, CommentDeleteView
 urlpatterns = [
     # path('admin/', admin.site.urls),
     # path('data/', include('data_app.urls')),
@@ -23,6 +23,7 @@ urlpatterns = [
     path('comment/write', CommentWriteView.as_view(), name='comment_write'),
     path('comment/list', CommentListView.as_view(), name='comment_list'),
     path('comment/report', CommentReportView.as_view(), name='comment_report'),
+    path('comment/delete', CommentDeleteView.as_view(), name='comment_delete'),
 
     path('like/submit', LikeSubmitView.as_view(), name='like_submit'),
 ]

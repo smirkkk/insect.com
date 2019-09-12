@@ -1,0 +1,84 @@
+<div id="comment_modal" class="modal">
+    <div class="modal_content">
+        <h2><i class="fas fa-trash" style="color:gray"></i>&nbsp;댓글 삭제</h2>
+            <input type="hidden" name="comment_delete_id">
+            <input type="password" name="comment_delete_password" placeholder="댓글 암호를 입력해주세요.">
+            <button class="modal_close_btn" type="button">닫기</button>
+            <button class="modal_submit_btn" onclick="comment_delete()" id="comment_delete" type="button">삭제</button>
+    </div>
+
+    <div class="modal_layer"></div>
+</div>
+
+<script>
+    function direct_delete(comment_id){
+        $.ajax({
+            type: "POST",
+            url: '{% url 'comment_delete' %}',
+            data: { 'comment_id' : comment_id,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                  },
+            dataType: "json",
+
+            success: function(response){
+                    if (response['status'] == 'wrong_request'){
+                        alert('잘못된 요청입니다.');
+                    }
+                    else {
+                        alert('삭제했습니다.');
+                        comment_order_by_recent();
+                    }
+                },
+                error: function(request, status, error){
+                    alert('실패했습니다.');
+            },
+        });
+    }
+
+    function comment_delete() {
+        $.ajax({
+            type: "POST",
+            url: '{% url 'comment_delete' %}',
+            data: { 'comment_id' : $('input[name=comment_delete_id]').val(),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'password' : $('input[name=comment_delete_password]').val()
+                  },
+            dataType: "json",
+
+            success: function(response){
+                    if (response['status'] == 'wrong_password'){
+                        alert('비밀번호가 틀렸습니다.');
+                        $('input[name=comment_delete_password]').val('');
+                    }
+                    else {
+                        alert('삭제했습니다.');
+                        comment_order_by_recent();
+                        close_comment_modal();
+
+                    }
+                },
+                error: function(request, status, error){
+                    alert('실패했습니다.');
+            },
+        });
+    };
+
+    function open_delete_modal(comment_id){
+        $("input[name=comment_delete_id]").val(comment_id);
+        $("#comment_modal").fadeIn();
+        location.href = "#comment_modal";
+    };
+
+    function close_comment_modal(){
+        $("#comment_modal").fadeOut();
+    };
+
+    $(".modal_close_btn").click(function(){
+        close_comment_modal();
+    });
+
+    $(".modal_layer").click(function(){
+        close_comment_modal();
+    });
+
+</script>

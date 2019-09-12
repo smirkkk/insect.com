@@ -4,6 +4,10 @@
 <link rel="stylesheet" href="{% static 'css/result.css' %}">
 <link rel="stylesheet" href="{% static 'css/mobile_result.css' %}">
 
+
+{% include 'search/comment.html' %}
+{% include 'search/report.html' %}
+
 <div id="summoner_info_div">
     <img id="summoner_profile_pic" src="http://ddragon.leagueoflegends.com/cdn/9.17.1/img/profileicon/4239.png">
     <div id="summoner_fact_div">
@@ -32,7 +36,6 @@
     </div>
 </div>
 
-
 <ul class="review_tab">
     <li id="champion_tab" class="deactivate">챔피언 리뷰</li>
     <li id="summoner_tab" class="deactivate">소환사 리뷰</li>
@@ -45,7 +48,6 @@
         {% include 'search/review.html' %}
     </div>
 </div>
-
 
 
 <script>

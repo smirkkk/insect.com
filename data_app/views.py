@@ -82,6 +82,30 @@ class CommentReportView(View):
         return HttpResponse(json.dumps(context), content_type="application/json")
 
 
+class CommentDeleteView(View):
+    def post(self, request):
+        comment_id = self.request.POST.get('comment_id')
+        comment = get_object_or_404(Comment, id=comment_id)
+        password = self.request.POST.get('password')
+
+        if comment.writer:
+            if self.request.user.is_superuser or comment.writer == self.request.user:
+                comment.delete()
+                context = {'status': 'success'}
+            else:
+                context = {'status': 'wrong_request'}
+
+        else:
+            if password == comment.password:
+                comment.delete()
+                context = {'status': 'success'}
+
+            else:
+                context = {'status': 'wrong_password'}
+
+        return HttpResponse(json.dumps(context), content_type="application/json")
+
+
 class LikeSubmitView(View):
     def get_like_object(self, request, comment):
         if self.request.user.is_authenticated:

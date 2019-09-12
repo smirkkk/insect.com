@@ -1,0 +1,58 @@
+<div id="report_modal" class="modal">
+    <div class="modal_content">
+        <h2><i class="fas fa-exclamation-triangle" style="color:orange;"></i>&nbsp;댓글 신고</h2>
+            <input type="hidden" name="comment_report_id">
+            <input name="comment_report_reason" placeholder="신고 사유를 작성해주세요.">
+            <button class="modal_close_btn" type="button">닫기</button>
+            <button class="modal_submit_btn" id="comment_report" type="button">신고</button>
+    </div>
+
+    <div class="modal_layer"></div>
+</div>
+
+<script>
+
+    $('#comment_report').click(function() {
+        $.ajax({
+            type: "POST",
+            url: '{% url 'comment_report' %}',
+            data: { 'comment_id' : $('input[name=comment_report_id]').val(),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'reason' : $('input[name=comment_report_reason]').val()
+                  },
+            dataType: "json",
+
+            success: function(response){
+                if(response.status == 'existed'){
+                    alert('이미 신고하셨습니다.');
+                } else if (response.status == 'created'){
+                    alert('신고가 접수되었습니다.');
+                    close_comment_modal();
+                    $('input[name=comment_report_reason]').val('');
+                }
+            },
+                error: function(request, status, error){
+                    alert('실패했습니다.');
+            },
+        });
+    });
+
+    function open_report_modal(comment_id){
+        $("input[name=comment_report_id]").val(comment_id);
+        $("#report_modal").fadeIn();
+        location.href = "#report_modal";
+    };
+
+    function close_report_modal(){
+        $("#report_modal").fadeOut();
+    };
+
+    $(".modal_close_btn").click(function(){
+        close_report_modal();
+    });
+
+    $(".modal_layer").click(function(){
+        close_report_modal();
+    });
+
+</script>
