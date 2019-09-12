@@ -44,6 +44,8 @@
     #champion_result_list_div .champion_result_div .champion_status .kda_table td{ font-size:24px;}
 
     #summoner_comment_list_div { background:white; margin: auto; border-radius:10px; border-top-left-radius:0px;}
+    #summoner_comment_list_div .order_type:hover{ cursor:pointer; }
+    #summoner_comment_list_div .order_type.selected { font-weight:bold; color: #2196f3;}
     #summoner_comment_list_div #comment_write_div { height:150px; }
     #summoner_comment_list_div #comment_textarea{ width:85%; float:left; margin-right:3.3em; border:solid 1px lightgray; border-radius:5px; padding:7px;}
     #summoner_comment_list_div #submit_comment { width:10%; float:left; height:90px; background:#2196f3; border:#2196f3 1px solid; color:white; font-size:18px; transition:0.3s;}
