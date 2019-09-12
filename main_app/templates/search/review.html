@@ -84,7 +84,7 @@
                     $('#comment_' + comment_id + ' .like').removeClass('liked')
                     $('#comment_' + comment_id + ' .dislike').removeClass('disliked')
                     $('#comment_' + comment_id + ' .like').attr("onclick", "like_submit('submit', 'like', "+ comment_id +")")
-                    $('#comment_' + comment_id + ' .dislike').attr("onclick", "like_submit('cancel', 'dislike', "+ comment_id +")")
+                    $('#comment_' + comment_id + ' .dislike').attr("onclick", "like_submit('submit', 'dislike', "+ comment_id +")")
                 }
 
                 else if (response['type'] == 'like'){
