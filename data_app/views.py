@@ -249,18 +249,18 @@ class LikeSubmitView(View):
         if like_type == 'like':
             if method == 'submit':
                 like.like = True
-            elif method == 'cancel':
-                like.like = False
             like.dislike = False
 
         elif like_type == 'dislike':
             if method == 'submit':
                 like.dislike = True
-            elif method == 'cancel':
-                like.dislike = False
             like.like = False
 
-        like.save()
+        if method == 'cancel':
+            like.delete()
+        else:
+            like.save()
+
 
         self.calculate_comment_like(self.request, comment)
         context = {'comment': comment.id, 'type': like_type, 'method': method, 'like_count': comment.like,

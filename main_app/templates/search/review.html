@@ -75,25 +75,29 @@
             dataType: "json",
             success: function(response){
                 console.log(response);
-                $('#comment_' + response['comment'] + ' .like_count').text(response['like_count'])
-                $('#comment_' + response['comment'] + ' .dislike_count').text(response['dislike_count'])
+                comment_id = parseInt(response['comment'])
+                console.log(comment_id)
+                $('#comment_' + comment_id + ' .like_count').text(response['like_count'])
+                $('#comment_' + comment_id + ' .dislike_count').text(response['dislike_count'])
 
                 if (response['method'] == 'cancel'){
-                    $('#comment_' + response['comment'] + ' .like').removeClass('liked')
-                    $('#comment_' + response['comment'] + ' .dislike').removeClass('disliked')
+                    $('#comment_' + comment_id + ' .like').removeClass('liked')
+                    $('#comment_' + comment_id + ' .dislike').removeClass('disliked')
+                    $('#comment_' + comment_id + ' .like').attr("onclick", "like_submit('submit', 'like', "+ comment_id +")")
+                    $('#comment_' + comment_id + ' .dislike').attr("onclick", "like_submit('cancel', 'dislike', "+ comment_id +")")
                 }
 
                 else if (response['type'] == 'like'){
-                    $('#comment_' + response['comment'] + ' .like').addClass('liked')
-                    $('#comment_' + response['comment'] + ' .like').attr("onclick", "like_submit(7, 'like', 'cancel')")
-                    $('#comment_' + response['comment'] + ' .dislike').removeClass('disliked')
-                    $('#comment_' + response['comment'] + ' .dislike').attr("onclick", "like_submit(7, 'dislike', 'submit')")
+                    $('#comment_' + comment_id + ' .like').addClass('liked')
+                    $('#comment_' + comment_id + ' .like').attr("onclick", "like_submit('cancel', 'like', "+ comment_id +")")
+                    $('#comment_' + comment_id + ' .dislike').removeClass('disliked')
+                    $('#comment_' + comment_id + ' .dislike').attr("onclick", "like_submit('submit', 'dislike', "+ comment_id +")")
                 }
                 else if (response['type'] == 'dislike'){
-                    $('#comment_' + response['comment'] + ' .like').removeClass('liked')
-                    $('#comment_' + response['comment'] + ' .like').attr("onclick", "like_submit(7, 'like', 'submit')")
-                    $('#comment_' + response['comment'] + ' .dislike').addClass('disliked')
-                    $('#comment_' + response['comment'] + ' .dislike').attr("onclick", "like_submit(7, 'dislike', 'cancel')")
+                    $('#comment_' + comment_id + ' .like').removeClass('liked')
+                    $('#comment_' + comment_id + ' .like').attr("onclick", "like_submit('submit', 'like', "+ comment_id +")")
+                    $('#comment_' + comment_id + ' .dislike').addClass('disliked')
+                    $('#comment_' + comment_id + ' .dislike').attr("onclick", "like_submit('cancel', 'dislike', "+ comment_id +")")
                 }
             },
             error: function(request, status, error){
@@ -101,26 +105,6 @@
             },
         });
     };
-
-    function dislike_submit(comment_id){
-         $.ajax({
-            type: "POST",
-            url: '{% url 'like_submit' %}',
-            data: { 'comment_id': comment_id,
-                    'csrfmiddlewaretoken': '{{ csrf_token }}',
-                    'like_type' : 'dislike'
-                  },
-            dataType: "json",
-
-            success: function(response){
-                    alert('yup');
-                },
-                error: function(request, status, error){
-                    alert('실패했습니다.');
-            },
-        });
-    };
-
 
     $('#submit_comment').click(function (e) {
 
