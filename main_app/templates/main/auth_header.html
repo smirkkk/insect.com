@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>으악 벌레다!!</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+
+    <!-- favicon -->
+    <link rel="icon" href="{% static 'img/favicon.ico' %}">
+
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    <link rel="stylesheet" href="{% static 'css/auth_mobile.css' %}">
+    <script type="text/javascript" charset="utf-8" src="{% static 'js/sidebar.js' %}"></script>
+    <script type="text/javascript" charset="utf-8" src="{% static 'js/default.js' %}"></script>
+</head>
+<body>
+<section id="head">
+    <img id="logo_img" src="{% static 'img/제목 없음.png' %}">
+    <button id="menu_button" onclick="openNav()"><i style="color:#6fab72;" id="sidebar_icon" class="fas fa-bars fa-3x"></i></button>
+    <button id="mobile_menu_button" onclick="openMobileNav()"><i id="mobile_sidebar_icon" class="fas fa-bars fa-2x"></i></button>
+
+    <div id="logo">
+        <!--<img id="full-logo" src="{% static 'img/Full-Logo.png' %}">-->
+    </div>
+</section>
+<div>
+    <div id="mySidenav" class="sidenav">
+        <a class="closebtn" onclick="closeNav()">&times;</a>
+        <ul>
+            {% if user.is_authenticated %}
+            <li><b>{{user.profile.nickname}}</b>님 왜 오신거죠?</li>
+            <li><a href="/accounts/logout/">로그아웃</a></li>
+            {% else %}
+            <li><a href="/accounts/login/">로그인</a></li>
+            {% endif %}
+        </ul>
+        <div id="bottom_space"></div>
+    </div>
+    <div class="overlay" onclick="closeNav()"></div>
+</div>
+<script>
+$('#logo_img').click(function(){
+    location.href = '/';
+});
+</script>
