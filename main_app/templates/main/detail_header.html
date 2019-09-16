@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="{% static 'css/default.css' %}">
     <link rel="stylesheet" href="{% static 'css/mobile.css' %}">
     <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/result.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mobile_result.css' %}">
     <script type="text/javascript" charset="utf-8" src="{% static 'js/sidebar.js' %}"></script>
     <script type="text/javascript" charset="utf-8" src="{% static 'js/default.js' %}"></script>
 </head>
@@ -35,7 +37,7 @@
         <a class="closebtn" onclick="closeNav()">&times;</a>
         <ul>
             {% if user.is_authenticated %}
-            <li><b>{{user.profile.nickname}}</b>님 안녕하세요 ㅋ</li>
+            <li><b>{{user.profile.nickname}}</b>님 왜 오신거죠?</li>
             <li><a href="/accounts/logout/">로그아웃</a></li>
             {% else %}
             <li><a href="/accounts/login/">로그인</a></li>

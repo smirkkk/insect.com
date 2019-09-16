@@ -35,7 +35,7 @@
         <a class="closebtn" onclick="closeNav()">&times;</a>
         <ul>
             {% if user.is_authenticated %}
-            <li><b>{{user.profile.nickname}}</b>님 안녕하세요 ㅋ</li>
+            <li><b>{{user.profile.nickname}}</b>님 왜 오신거죠?</li>
             <li><a href="/accounts/logout/">로그아웃</a></li>
             {% else %}
             <li><a href="/accounts/login/">로그인</a></li>
