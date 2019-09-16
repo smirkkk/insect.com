@@ -1,0 +1,92 @@
+{% load staticfiles %}
+{% include 'main/auth_header.html' %}
+
+<div id="profile_content_div">
+    <div class="profile_content">
+        <p class="profile_title">닉네임 변경</p>
+        <div style="height:40px;">
+            <form id="nickname_form">
+                <input id="nickname_input" name="nickname" value="{{user.profile.nickname}}" required>
+                <button id="save_nickname">저장</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="profile_content">
+        <p class="profile_title">이메일 변경</p>
+        <div style="height:40px;">
+            <form id="email_form">
+                <input id="email_input" name="email" value="{{user.email}}" type="email" required>
+                <button id="save_email">저장</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="profile_content">
+        <p class="profile_title">비밀번호 변경</p>
+        <a href="{% url 'account_change_password' %}">비밀번호를 변경하려면 클릭해주세요.</a>
+    </div>
+</div>
+
+
+
+<script>
+    nickname_request = null
+    email_request = null
+
+    $("#nickname_form").submit(function(e) {
+        nickname = $('#nickname_input').val()
+
+        if(nickname_request == null){
+            nickname_request = 'requested'
+            $.ajax({
+                type: "POST",
+                url: "{% url 'duplicate_check' %}",
+                data: {'nickname':nickname,
+                       'csrfmiddlewaretoken': '{{ csrf_token }}'
+                      },
+                success: function (response) {
+                    nickname_request = null
+                    if(response.status == 'duplicated'){
+                        alert('중복되는 닉네임입니다. 닉네임 짓는게 쉽진 않죠.');
+                        $('#nickname_input').val('');
+                    }
+                    else{
+                        alert('닉네임을 바꿔드렸어요.');
+                        $('#nickname_input').val(nickname);
+                    }
+                },
+                error: function(){
+                    $('#nickname_input').val('');
+                    alert('잘못된 요청이에요.');
+                },
+            });
+        }
+        return false;
+    });
+
+    $("#email_form").submit(function(e) {
+        email = $('#email_input').val()
+
+        if(email_request == null){
+            email_request = 'requested'
+            $.ajax({
+                type: "POST",
+                url: "{% url 'change_email' %}",
+                data: {'email':email,
+                       'csrfmiddlewaretoken': '{{ csrf_token }}'
+                      },
+                success: function (response) {
+                    email_request = null
+                    alert('이메일을 바꿔드렸어요.');
+                    $('#email_input').val(email);
+                },
+                error: function(){
+                    $('#email_input').val('');
+                    alert('잘못된 요청이에요.');
+                },
+            });
+        }
+        return false;
+    });
+</script>

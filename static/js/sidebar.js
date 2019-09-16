@@ -39,10 +39,6 @@ jQuery(function($)
             });
         });
 
-        $("#head").click(function(){
-            location.href = '/'
-        });
-
         $(".menutitle").click(function(){
             var submenu = $(this).next("ul");
 
