@@ -1,0 +1,42 @@
+{% load i18n %}
+{% load staticfiles %}
+{% include 'main/auth_header.html' %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+
+<div id="signup_div">
+  <p id="signup_welcome">Welcome!</p>
+  <p id="merit_p" style="text-align:center;">회원가입을 통해 다음과 같은 혜택을 얻을 수 있어요 :</p>
+  <ul id="merit_ul" style="padding-left:75px;">
+    <li>고정된 닉네임을 사용 할 수 있어요.</li>
+    <li>활동량에 따라 당신도 챌린저가 될 수 있어요.</li>
+    <li>기분이 좋아져요. (저희가)</li>
+  </ul>
+
+  <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+    {% csrf_token %}
+    {% for error in form.email.errors %}
+    <p class="form_error_p">{{ error | safe }}</p>
+    {% endfor %}
+    <input name="email" type="email" minlength="1" maxlength="150" required placeholder="이메일">
+    {% for error in form.username.errors %}
+    <p class="form_error_p">{{ error | safe }}</p>
+    {% endfor %}
+    <input name="username" type="text" minlength="1" maxlength="150" required placeholder="아이디">
+    {% for error in form.password1.errors %}
+    <p class="form_error_p">{{ error | safe }}</p>
+    {% endfor %}
+    <input name="password1" type="password" minlength="1" maxlength="150" required placeholder="비밀번호">
+    {% for error in form.password2.errors %}
+    <p class="form_error_p">{{ error | safe }}</p>
+    {% endfor %}
+    <input name="password2" type="password" minlength="1" maxlength="150" required placeholder="비밀번호 확인">
+    {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+    <button type="submit">{% trans "Sign Up" %}</button>
+  </form>
+</div>
+{% endblock %}

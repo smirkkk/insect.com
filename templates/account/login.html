@@ -1,0 +1,40 @@
+{% load i18n %}
+{% load staticfiles %}
+{% include 'main/auth_header.html' %}
+{% load account socialaccount %}
+
+{% block content %}
+
+{% get_providers as socialaccount_providers %}
+
+{% include "socialaccount/snippets/login_extra.html" %}
+
+<div id="login_div">
+
+  <form class="login" method="POST" action="{% url 'account_login' %}">
+    {% csrf_token %}
+    {% if form.errors %}
+    <p class="form_error_p">ID나 비밀번호가 일치하지 않습니다.</p>
+    {% endif %}
+    <input name="login" class="login_input" required placeholder="아이디">
+    <input name="password" class="login_input" type="password" required placeholder="비밀번호">
+    {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+    <button class="primaryAction" id="login_button" type="submit">로그인</button>
+    <a class="button secondaryAction" id="reset_password_link" href="{% url 'account_reset_password' %}">비밀번호 뭐였더라?</a>
+  </form>
+  <p><a href="{{ signup_url }}" id="sign_up_link">가입 허쉴?</a></p>
+  <br>
+  <div class="hr-sect">OR</div>
+
+  <div class="socialaccount_ballot">
+
+    <ul class="socialaccount_providers">
+      {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+    </ul>
+  </div>
+
+</div>
+
+{% endblock %}
