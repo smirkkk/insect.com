@@ -28,8 +28,8 @@ class VisitorSessionMiddleware(object):
                 if created:
                     while True:
                         emotion = random.choice(list(NicknameEmotion.objects.values('emotion')))
-                        champ = random.choice(list(Champion.objects.values('champion_name')))
-                        nickname = emotion['emotion'] + ' ' + champ['champion_name']
+                        champ = random.choice(list(Champion.objects.values('champion_short')))
+                        nickname = emotion['emotion'] + ' ' + champ['champion_short']
                         print(nickname)
                         if Profile.objects.filter(nickname=nickname).exists() or NonMemberSession.objects.filter(
                                 nickname=nickname).exists():

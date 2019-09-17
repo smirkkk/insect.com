@@ -6,6 +6,10 @@
 
     .tier_C {font-weight:bold; color:red;}
 
+    .color_red { color:red; }
+    .color_blue { color:#2196f3; }
+    .color_orange { color:orange; }
+
 
     #summoner_info_div{ background:white; margin:150px auto; width:65%; height:150px; border-radius:10px; padding:30px;}
 
@@ -32,16 +36,22 @@
     .review_tab:hover { cursor:pointer;}
 
     #champion_result_list_div { background:white; margin: auto; border-radius:10px; border-top-left-radius:0px; padding:30px;}
-    #champion_result_list_div .champion_result_div { padding:30px; clear:both; display:block; height:300px;}
+    #champion_result_list_div .champion_result_div { padding:30px; clear:both; display:block; height:350px;}
     #champion_result_list_div .champion_result_div img { float:left;}
     #champion_result_list_div .champion_result_div .champion_status { height:120px; margin-bottom:50px; }
-    #champion_result_list_div .champion_result_div .champion_status .champion_title { margin:0 0 20px 20px; display:inline;}
+    #champion_result_list_div .champion_result_div .champion_status .champion_title { margin:0 0 20px 20px; display:inline; font-weight:500;}
     #champion_result_list_div .champion_result_div .champion_status span { width:150px; text-align:center; display:inline-block;}
     #champion_result_list_div .champion_result_div .champion_status .winning_rate,
     #champion_result_list_div .champion_result_div .champion_status .average { font-size: 24px;}
 
     #champion_result_list_div .champion_result_div .champion_status .kda_table { width:50%; text-align:center; float:right; margin:4% 5% 0 0;}
     #champion_result_list_div .champion_result_div .champion_status .kda_table td{ font-size:24px;}
+
+    #champion_result_list_div .champion_result_div .comment_teemo img { width:120px; margin: 25px 100px 0 0; float:left; }
+
+    #champion_result_list_div .champion_result_div .bubble { line-height:70px; background:#f1f1f1; float:left; position: relative; height: 70px; padding: 20px 50px; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; margin: 30px 0 0 0;}
+    #champion_result_list_div .champion_result_div .bubble:after { content: ''; position: absolute; border-style: solid; border-width: 10px 30px 10px 0; border-color: transparent #f1f1f1; display: block; width: 0; z-index: 1; left: -30px; top: 45px; }
+
 
     #summoner_comment_list_div { background:white; margin: auto; border-radius:10px; border-top-left-radius:0px;}
     #summoner_comment_list_div .order_type:hover{ cursor:pointer; }
