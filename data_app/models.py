@@ -11,6 +11,7 @@ class Champion(models.Model):
     champion_english_name = models.CharField(default=None, null=True, blank=True, max_length=20)
     champion_brood = models.CharField(default=None, null=True, blank=True, max_length=50)
     champion_title = models.CharField(default=None, null=True, blank=True, max_length=50)
+    champion_short = models.CharField(default=None, null=True, blank=True, max_length=10)
 
     # 승률 60% 이상
     grade1 = models.CharField(default=None, null=True, blank=True, max_length=200)  # 평점 4점 이상

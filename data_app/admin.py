@@ -7,10 +7,10 @@ from .forms import ChampionForm
 
 class ChampionAdmin(admin.ModelAdmin):
     form = ChampionForm
-    list_display = ('champion_name', 'champion_brood', 'grade1', 'grade6', 'grade11', 'grade20')
+    list_display = ('champion_name', 'champion_short', 'champion_brood', 'grade1', 'grade6', 'grade11', 'grade20')
 
     fieldsets = [
-        (None,               {'fields': ['champion_key', 'champion_name', 'champion_brood', 'champion_title']}),
+        (None,               {'fields': ['champion_key', 'champion_name', 'champion_short', 'champion_brood', 'champion_title']}),
         ('승률 60% 이상', {'fields': ['grade1', 'grade2', 'grade3', 'grade4', 'grade5']}),
         ('승률 50%대', {'fields': ['grade6', 'grade7', 'grade8', 'grade9', 'grade10']}),
         ('승률 40%대', {'fields': ['grade11', 'grade12', 'grade13', 'grade14', 'grade15']}),

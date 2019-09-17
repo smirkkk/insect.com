@@ -244,8 +244,6 @@ class LikeSubmitView(View):
 
         like = self.get_like_object(self.request, comment)
 
-        context = {}
-
         if like_type == 'like':
             if method == 'submit':
                 like.like = True
@@ -279,7 +277,8 @@ class SummonerScoreView(View):
         else:
             score, created = Score.objects.get_or_create(target=summoner, score=score, ip_addr=request.session._session['ip'])
 
-        if created:
+        print(created)
+        if not created:
             context = {'status': 'already'}
         else:
             context = {'status': 'success'}
