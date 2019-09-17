@@ -19,7 +19,7 @@
     #summoner_info_div #summoner_fact_div #summoner_badge .badge_bad { margin: 0 5px 0 0; background:red; color:white; border-radius:5px; padding:5px;}
     #summoner_info_div #summoner_fact_div #summoner_badge .badge_soso { margin: 0 5px 0 0; background:orange; color:white; border-radius:5px; padding:5px;}
 
-    #summoner_info_div #summoner_score { float:right; height:100%; margin:0 50px 0 0;}
+    #summoner_info_div #summoner_score { float:right; height:100%; margin:0 50px 0 0; text-align:center;}
     #summoner_info_div #summoner_score #score_display { color:red; font-size:40px; }
     #summoner_info_div #summoner_score #score_digit {  }
     #summoner_info_div #summoner_score #score_button { font-size:18px; border:none; background:#2196f3; color:white; padding:5px;}

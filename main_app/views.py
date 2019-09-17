@@ -1,9 +1,10 @@
+from django.db.models import Sum
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.views.generic.base import View
 
 from data_app.calculator.all_games import get_rank_result
-from data_app.models import Champion, Summoner, RankGameResult
+from data_app.models import Champion, Summoner, RankGameResult, Score
 
 # Create your views here.
 from django.views.generic import TemplateView
@@ -73,5 +74,29 @@ class SearchView(View):
             summoner.save()
             context['summoner'] = summoner
             context['rank_result'] = RankGameResult.objects.filter(summoner=summoner)
+
+        score_dict = {}
+        score_object = Score.objects.filter(target=summoner)
+        score_count = score_object.count()
+        score_sum = score_object.aggregate(Sum('score'))
+        print(score_sum)
+        print(score_count)
+        if score_count > 0:
+            score_dict['average'] = round(score_sum['score__sum'] / score_count, 2)
+            score_dict['count'] = score_count
+        else:
+            score_dict['average'] = None
+            score_dict['count'] = None
+        context['score'] = score_dict
+
+        if self.request.user.is_authenticated:
+            exist = Score.objects.filter(valuer=self.request.user).exists()
+        else:
+            exist = Score.objects.filter(ip_addr=self.request.session._session['ip']).exists()
+
+        if exist:
+            score_dict['already'] = True
+        else:
+            score_dict['already'] = False
 
         return render(request=self.request, context=context, template_name='search/summoner.html')
