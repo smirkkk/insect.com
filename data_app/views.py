@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404
 # Create your views here.
 from django.views.generic.base import View
 
-from data_app.models import Summoner, Comment, Like, CommentReport
+from data_app.models import Summoner, Comment, Like, CommentReport, Score
 
 
 class CommentWriteView(View):
@@ -265,5 +265,23 @@ class LikeSubmitView(View):
         self.calculate_comment_like(self.request, comment)
         context = {'comment': comment.id, 'type': like_type, 'method': method, 'like_count': comment.like,
                    'dislike_count': comment.dislike}
+
+        return HttpResponse(json.dumps(context), content_type="application/json")
+
+
+class SummonerScoreView(View):
+    def post(self, request):
+        summoner = get_object_or_404(Summoner, id=self.request.POST.get('summoner_id'))
+        score = self.request.POST.get('score').count('★')
+
+        if self.request.user.is_authenticated:
+            score, created = Score.objects.get_or_create(target=summoner, score=score, valuer=self.request.user)
+        else:
+            score, created = Score.objects.get_or_create(target=summoner, score=score, ip_addr=request.session._session['ip'])
+
+        if created:
+            context = {'status': 'already'}
+        else:
+            context = {'status': 'success'}
 
         return HttpResponse(json.dumps(context), content_type="application/json")
