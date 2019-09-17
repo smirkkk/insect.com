@@ -17,19 +17,48 @@
         </div>
     </div>
     <div id="summoner_score">
-        <span style="margin:0; font-size:20px;">소환사 평점</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>참여 : </span><span style="font-weight:bold;">9999</span><br>
-        <span id="score_display"><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></span>&nbsp;&nbsp;<span id="score_digit">(0.9)</span><br><br>
-        <form style="margin:12px 0 0 0;">
-            <select style="border:none; font-size:24px; height:30px;">
-                <option selected>☆☆☆☆☆</option>
-                <option>★☆☆☆☆</option>
-                <option>★★☆☆☆</option>
-                <option>★★★☆☆</option>
-                <option>★★★★☆</option>
-                <option>★★★★★</option>
-            </select>
-            <button id="score_button"><span>평가하기</span></button>
-        </form>
+        <span style="margin:0; font-size:20px;">소환사 평점</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>참여 : </span><span style="font-weight:bold;">{{score.count|default:0}}</span><br>
+        <span id="score_display">
+            {% if score.average == 5 %}
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            {% elif score.average >= 4.5 %}
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half"></i>
+            {% elif score.average >= 4 %}
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+            {% elif score.average >= 3.5 %}
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half"></i><i class="far fa-star"></i>
+            {% elif score.average >= 3 %}
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            {% elif score.average >= 2.5 %}
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            {% elif score.average >= 2 %}
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            {% elif score.average >= 1.5 %}
+                <i class="fas fa-star"></i><i class="fas fa-star-half"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            {% elif score.average >= 1 %}
+                <i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            {% elif score.average >= 0.5 %}
+                <i class="fas fa-star-half"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            {% else %}
+                <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+            {% endif %}
+        </span>&nbsp;&nbsp;
+        <span id="score_digit">({{score.average|default:'0.0'}})</span><br><br>
+        {% if score.already %}
+        <p>이미 참여하셨습니다.</p>
+        {% else %}
+            <form id="score_form" style="margin:12px 0 0 0;">
+                <select name="score" style="border:none; font-size:24px; height:30px;">
+                    <option selected>☆☆☆☆☆</option>
+                    <option>★☆☆☆☆</option>
+                    <option>★★☆☆☆</option>
+                    <option>★★★☆☆</option>
+                    <option>★★★★☆</option>
+                    <option>★★★★★</option>
+                </select>
+                <button id="score_button" type="submit"><span>평가하기</span></button>
+            </form>
+        {% endif %}
 
     </div>
 </div>
@@ -49,28 +78,56 @@
 
 
 <script>
-$('#summoner_tab.deactivate').on('click', function(){
-        $('#chma').css('display', 'none');
-        $('#summ').removeAttr('style');
+    $("#score_form").submit(function(e) {
+        score = $('select[name=score]').val()
+        alert(score);
 
-        $('#champion_tab').addClass('deactivate')
-        $('#champion_tab').removeClass('activate')
+        $.ajax({
+            type: "POST",
+            url: "{% url 'summoner_score' %}",
+            data: {'score':score,
+                   'csrfmiddlewaretoken': '{{ csrf_token }}',
+                   'summoner_id': '{{ summoner.id }}'
+                  },
+            success: function (response) {
+                if (response.status == 'already'){
+                    alert('이미 참여하셨습니다');
+                }
+                else {
+                    location.reload();
+                }
+            },
+            error: function(){
+                alert('잘못된 요청이에요.');
+            },
+        });
 
-        $('#summoner_tab').addClass('activate')
-        $('#summoner_tab').removeClass('deactivate')
-});
+        return false;
+    });
 
-$('#champion_tab.deactivate').on('click', function(){
-        $('#summ').css('display', 'none');
-        $('#chma').removeAttr('style');
 
-        $('#champion_tab').addClass('activate')
-        $('#champion_tab').removeClass('deactivate')
+    $('#summoner_tab.deactivate').on('click', function(){
+            $('#chma').css('display', 'none');
+            $('#summ').removeAttr('style');
 
-        $('#summoner_tab').addClass('deactivate')
-        $('#summoner_tab').removeClass('activate')
-});
-$('#champion_tab.deactivate').click().trigger();
+            $('#champion_tab').addClass('deactivate')
+            $('#champion_tab').removeClass('activate')
+
+            $('#summoner_tab').addClass('activate')
+            $('#summoner_tab').removeClass('deactivate')
+    });
+
+    $('#champion_tab.deactivate').on('click', function(){
+            $('#summ').css('display', 'none');
+            $('#chma').removeAttr('style');
+
+            $('#champion_tab').addClass('activate')
+            $('#champion_tab').removeClass('deactivate')
+
+            $('#summoner_tab').addClass('deactivate')
+            $('#summoner_tab').removeClass('activate')
+    });
+    $('#champion_tab.deactivate').click().trigger();
 
 </script>
 
