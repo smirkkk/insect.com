@@ -18,6 +18,7 @@
     #summoner_info_div #summoner_fact_div {width:50%; height:100%; float:left; margin: 0 0 0 25px;}
     #summoner_info_div #summoner_fact_div #summoner_name { display:inline; margin: 0 0 20px 0;}
     #summoner_info_div #summoner_fact_div #refresh_button { border:none; background:#2196f3; color:white; position:absolute; margin:8px; height:30px;}
+    #summoner_info_div #summoner_fact_div #refresh_button:hover { cursor:pointer; }
     #summoner_info_div #summoner_fact_div #summoner_level { margin: 0;}
     #summoner_info_div #summoner_fact_div #summoner_badge { height:40px; font-size:20px; margin:30px 0 0 0;}
     #summoner_info_div #summoner_fact_div #summoner_badge .badge_bad { margin: 0 5px 0 0; background:red; color:white; border-radius:5px; padding:5px;}
@@ -27,6 +28,7 @@
     #summoner_info_div #summoner_score #score_display { color:red; font-size:40px; }
     #summoner_info_div #summoner_score #score_digit {  }
     #summoner_info_div #summoner_score #score_button { font-size:18px; border:none; background:#2196f3; color:white; padding:5px;}
+    #summoner_info_div #summoner_score #score_button:hover { cursor:pointer; }
 
     #result_import { margin:auto; width:65%; background:white; padding:30px;}
 
