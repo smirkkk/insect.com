@@ -48,11 +48,29 @@ class Champion(models.Model):
         db_table = 'data_champion'
 
 
+class Badge(models.Model):
+    text = models.CharField(default=None, null=True, blank=True, max_length=5)
+    color = models.CharField(default=None, null=True, blank=True, max_length=50)
+    qualification = models.CharField(default=None, null=True, blank=True, max_length=100)
+
+    class Meta:
+        db_table = 'data_badge'
+
+
 class Summoner(models.Model):
     account_id = models.CharField(default=None, null=True, blank=True, max_length=200)
+    summoner_id = models.CharField(default=None, null=True, blank=True, max_length=200)
     summoner_name = models.CharField(default=None, null=True, blank=True, max_length=50)
     tier = models.CharField(default=None, null=True, blank=True, max_length=20)
+    rank = models.CharField(default=None, null=True, blank=True, max_length=3)
+    level = models.IntegerField(default=None, null=True, blank=True)
+    icon = models.IntegerField(default=None, null=True, blank=True)
     refreshed_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
+    badge1 = models.ForeignKey(Badge, on_delete=models.CASCADE, default=None, null=True, blank=True, related_name='badge1')
+    badge2 = models.ForeignKey(Badge, on_delete=models.CASCADE, default=None, null=True, blank=True, related_name='badge2')
+    badge3 = models.ForeignKey(Badge, on_delete=models.CASCADE, default=None, null=True, blank=True, related_name='badge3')
+    badge4 = models.ForeignKey(Badge, on_delete=models.CASCADE, default=None, null=True, blank=True, related_name='badge4')
+    badge5 = models.ForeignKey(Badge, on_delete=models.CASCADE, default=None, null=True, blank=True, related_name='badge5')
 
     class Meta:
         db_table = 'data_summoner'
