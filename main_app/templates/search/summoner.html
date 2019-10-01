@@ -7,10 +7,10 @@
 {% include 'search/report.html' %}
 
 <div id="summoner_info_div">
-    <img id="summoner_profile_pic" src="http://ddragon.leagueoflegends.com/cdn/9.17.1/img/profileicon/4239.png">
+    <img id="summoner_profile_pic" src="http://ddragon.leagueoflegends.com/cdn/9.17.1/img/profileicon/{{summoner.icon}}.png">
     <div id="summoner_fact_div">
         <h1 id="summoner_name">{{summoner.summoner_name}}</h1><button id="refresh_button"><i style="font-size:20px;" class="fas fa-sync"></i></button><br><br>
-        <h3 id="summoner_level">Lv 189 | 벌레티넘 1</h3>
+        <h3 id="summoner_level">Lv {{summoner.level}} | {{summoner.tier}} {{summoner.rank}}</h3>
         <div id="summoner_badge">
             <span class="badge_bad">벌레</span>
             <span class="badge_soso">쓰레기</span>
@@ -78,6 +78,23 @@
 
 
 <script>
+$('#refresh_button').click(function(){
+        alert('hi');
+        $.ajax({
+            type: "POST",
+            url: "{% url 'result_refresh' %}",
+            data: {'summoner_name':'{{summoner.summoner_name}}',
+                   'csrfmiddlewaretoken': '{{ csrf_token }}'
+                  },
+            success: function (response) {
+                location.reload();
+            },
+            error: function(){
+                alert('잘못된 요청이에요.');
+            },
+        });
+    });
+
     $("#score_form").submit(function(e) {
         score = $('select[name=score]').val();
 

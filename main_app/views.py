@@ -100,3 +100,18 @@ class SearchView(View):
             score_dict['already'] = False
 
         return render(request=self.request, context=context, template_name='search/summoner.html')
+
+
+class RefreshView(View):
+    def post(self, request):
+        context = {}
+        summoner_name = self.request.POST.get('summoner_name')
+        summoner, trash = get_summoner_info(summoner_name)
+
+        result = get_rank_result(summoner_name)
+        RankGameResult.objects.filter(summoner=summoner).delete()
+        create_rank_result(result, summoner)
+        summoner.refreshed_date = timezone.now()
+        summoner.save()
+
+        return HttpResponse(json.dumps(context), content_type="application/json")
