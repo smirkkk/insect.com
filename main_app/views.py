@@ -2,7 +2,7 @@ import json
 
 from django.db.models import Sum
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.views.generic.base import View
 
@@ -57,7 +57,11 @@ class SearchView(View):
         summoner_name = self.request.GET.get('summoner_name')
         print(summoner_name)
 
-        summoner, trash = get_summoner_info(summoner_name)
+        try:
+            summoner, trash = get_summoner_info(summoner_name)
+        except KeyError as e:
+            return redirect('/unknown?summoner_name='+summoner_name)
+
         last_refresh = timezone.now() - summoner.refreshed_date
         print(summoner.refreshed_date)
         print(timezone.now())
@@ -65,9 +69,14 @@ class SearchView(View):
 
         if last_refresh.days >= 7:
             # 갱신 시간별로 삭제하고 새로 조회할지 냅둘지 만들어야함
-            result = get_rank_result(summoner_name)
-            RankGameResult.objects.filter(summoner=summoner).delete()
-            create_rank_result(result, summoner)
+            try:
+                result = get_rank_result(summoner_name)
+            except KeyError as e:
+                # 랭크 게임 전적이 없는 경우
+                pass
+            else:
+                RankGameResult.objects.filter(summoner=summoner).delete()
+                create_rank_result(result, summoner)
             summoner.refreshed_date = timezone.now()
             summoner.save()
         else:
@@ -108,10 +117,19 @@ class RefreshView(View):
         summoner_name = self.request.POST.get('summoner_name')
         summoner, trash = get_summoner_info(summoner_name)
 
-        result = get_rank_result(summoner_name)
-        RankGameResult.objects.filter(summoner=summoner).delete()
-        create_rank_result(result, summoner)
+        try:
+            result = get_rank_result(summoner_name)
+        except KeyError as e:
+            # 랭크 게임 전적이 없는 경우
+            pass
+        else:
+            RankGameResult.objects.filter(summoner=summoner).delete()
+            create_rank_result(result, summoner)
         summoner.refreshed_date = timezone.now()
         summoner.save()
 
         return HttpResponse(json.dumps(context), content_type="application/json")
+
+
+class NothingView(TemplateView):
+    template_name = 'search/nothing.html'

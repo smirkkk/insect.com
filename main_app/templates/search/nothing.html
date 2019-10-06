@@ -1,0 +1,15 @@
+{% load staticfiles %}
+{% load rank_record %}
+{% include 'main/detail_header.html' %}
+
+<div id="summoner_info_div">
+    <p id="unknown_summoner_p"><span>와드 오지게 박았는데, </span><b id="summoner_name"></b><span>라는 소환사는 못 찾았어요.</span></p>
+</div>
+
+<script>
+    url = new URL(location.href);
+    summoner_name = url.searchParams.get("summoner_name");
+    $('#summoner_name').text(summoner_name);
+</script>
+
+{% include 'main/footer.html' %}

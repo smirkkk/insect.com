@@ -10,7 +10,7 @@
     .color_blue { color:#2196f3; }
     .color_orange { color:orange; }
 
-
+    #unknown_summoner_p { text-align:center; font-size:18px; color:gray; line-height:120px; }
     #summoner_info_div{ background:white; margin:150px auto; width:65%; height:150px; border-radius:10px; padding:30px;}
 
     #summoner_info_div #summoner_profile_pic{ height:100%; float:left;}
