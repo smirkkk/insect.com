@@ -10,7 +10,7 @@
     <img id="summoner_profile_pic" src="http://ddragon.leagueoflegends.com/cdn/9.17.1/img/profileicon/{{summoner.icon}}.png">
     <div id="summoner_fact_div">
         <h1 id="summoner_name">{{summoner.summoner_name}}</h1><button id="refresh_button"><i style="font-size:20px;" class="fas fa-sync"></i></button><br><br>
-        <h3 id="summoner_level">Lv {{summoner.level}} | {{summoner.tier}} {{summoner.rank}}</h3>
+        <h3 id="summoner_level">Lv {{summoner.level}} {{summoner.tier|default_if_none:'Unranked'}} {{summoner.rank|default_if_none:''}}</h3>
         <div id="summoner_badge">
             <span class="badge_bad">벌레</span>
             <span class="badge_soso">쓰레기</span>
