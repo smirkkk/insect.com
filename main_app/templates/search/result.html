@@ -3,6 +3,7 @@
 
 <div id="champion_result_list_div">
 
+    {% if rank_result %}
     {% for result in rank_result %}
     <div class="champion_result_div">
         <img src="http://ddragon.leagueoflegends.com/cdn/9.17.1/img/champion/{{result.champion.champion_english_name}}.png">
@@ -55,56 +56,59 @@
             <div class="bubble">
                 {% if result.winning_rate > 59 %}
                 {% if result.average > 3.99 %}
-                <span>{{result.champion.grade1|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade1|insert_summoner:summoner|safe}}</span>
                 {% elif result.average > 2.99 %}
-                <span>{{result.champion.grade2|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade2|insert_summoner:summoner|safe}}</span>
                 {% elif result.average > 1.99 %}
-                <span>{{result.champion.grade3|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade3|insert_summoner:summoner|safe}}</span>
                 {% elif result.average > 0.99 %}
-                <span>{{result.champion.grade4|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade4|insert_summoner:summoner|safe}}</span>
                 {% else %}
-                <span>{{result.champion.grade5|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade5|insert_summoner:summoner|safe}}</span>
                 {% endif %}
                 {% elif result.winning_rate > 49 %}
                 {% if result.average > 3.99 %}
-                <span>{{result.champion.grade6|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade6|insert_summoner:summoner|safe}}</span>
                 {% elif result.average > 2.99 %}
-                <span>{{result.champion.grade7|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade7|insert_summoner:summoner|safe}}</span>
                 {% elif result.average > 1.99 %}
-                <span>{{result.champion.grade8|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade8|insert_summoner:summoner|safe}}</span>
                 {% elif result.average > 0.99 %}
-                <span>{{result.champion.grade9|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade9|insert_summoner:summoner|safe}}</span>
                 {% else %}
-                <span>{{result.champion.grade10|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade10|insert_summoner:summoner|safe}}</span>
                 {% endif %}
                 {% elif result.winning_rate > 39 %}
                 {% if result.average > 3.99 %}
-                <span>{{result.champion.grade11|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade11|insert_summoner:summoner|safe}}</span>
                 {% elif result.average > 2.99 %}
-                <span>{{result.champion.grade12|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade12|insert_summoner:summoner|safe}}</span>
                 {% elif result.average > 1.99 %}
-                <span>{{result.champion.grade13|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade13|insert_summoner:summoner|safe}}</span>
                 {% elif result.average > 0.99 %}
-                <span>{{result.champion.grade14|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade14|insert_summoner:summoner|safe}}</span>
                 {% else %}
-                <span>{{result.champion.grade15|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade15|insert_summoner:summoner|safe}}</span>
                 {% endif %}
                 {% else %}
                 {% if result.average > 3.99 %}
-                <span>{{result.champion.grade16|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade16|insert_summoner:summoner|safe}}</span>
                 {% elif result.average > 2.99 %}
-                <span>{{result.champion.grade17|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade17|insert_summoner:summoner|safe}}</span>
                 {% elif result.average > 1.99 %}
-                <span>{{result.champion.grade18|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade18|insert_summoner:summoner|safe}}</span>
                 {% elif result.average > 0.99 %}
-                <span>{{result.champion.grade19|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade19|insert_summoner:summoner|safe}}</span>
                 {% else %}
-                <span>{{result.champion.grade20|insert_summoner:summoner}}</span>
+                <span>{{result.champion.grade20|insert_summoner:summoner|safe}}</span>
                 {% endif %}
                 {% endif %}
             </div>
         </div>
     </div>
     {% endfor %}
+    {% else %}
+    <p id="unknown_summoner_p"><b>{{summoner.summoner_name}}</b><span>님은 랭못찐인가봐요.</span></p>
+    {% endif %}
 
 </div>
