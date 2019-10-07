@@ -26,6 +26,12 @@
 <body>
 <section id="head">
     <img id="logo_img" src="{% static 'img/제목 없음.png' %}">
+
+    <form id="top_search" method="GET" action="{% url 'search' %}">
+        <input id="summoner_name_input" name="summoner_name" placeholder="벌레.. 아니 소환사 이름" required>
+        <button type="submit" id="search_button">분석</button>
+    </form>
+
     <button id="menu_button" onclick="openNav()"><i style="color:#6fab72;" id="sidebar_icon" class="fas fa-bars fa-3x"></i></button>
     <button id="mobile_menu_button" onclick="openMobileNav()"><i id="mobile_sidebar_icon" class="fas fa-bars fa-2x"></i></button>
 

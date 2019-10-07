@@ -10,6 +10,12 @@
     .color_blue { color:#2196f3; }
     .color_orange { color:orange; }
 
+    #top_search { width:400px; position:fixed; right:40px; top:20px; }
+    #top_search input { width:70%; vertical-align:middle; }
+    #top_search button { height:30px; border:none; font-size:14px; background:lightgray; color:white; vertical-align:middle; padding:0 15px; transition:0.3s;}
+    #top_search button:hover { background:gray; cursor:pointer; }
+
+
     #unknown_summoner_p { text-align:center; font-size:18px; color:gray; line-height:120px; }
     #summoner_info_div{ background:white; margin:150px auto; width:65%; height:150px; border-radius:10px; padding:30px;}
 
