@@ -12,8 +12,21 @@
         <h1 id="summoner_name">{{summoner.summoner_name}}</h1><button id="refresh_button"><i style="font-size:20px;" class="fas fa-sync"></i></button><br><br>
         <h3 id="summoner_level">Lv {{summoner.level}} {{summoner.tier|default_if_none:'Unranked'}} {{summoner.rank|default_if_none:''}}</h3>
         <div id="summoner_badge">
-            <span class="badge_bad">벌레</span>
-            <span class="badge_soso">쓰레기</span>
+            {% if summoner.badge1 %}
+            <span class="badge noselect" style="background:{{summoner.badge1.color}}">{{summoner.badge1.text}}</span>
+            {% endif %}
+            {% if summoner.badge2 %}
+            <span class="badge noselect" style="background:{{summoner.badge2.color}}">{{summoner.badge2.text}}</span>
+            {% endif %}
+            {% if summoner.badge3 %}
+            <span class="badge noselect" style="background:{{summoner.badge3.color}}">{{summoner.badge3.text}}</span>
+            {% endif %}
+            {% if summoner.badge4 %}
+            <span class="badge noselect" style="background:{{summoner.badge4.color}}">{{summoner.badge4.text}}</span>
+            {% endif %}
+            {% if summoner.badge5 %}
+            <span class="badge noselect" style="background:{{summoner.badge5.color}}">{{summoner.badge5.text}}</span>
+            {% endif %}
         </div>
     </div>
     <div id="summoner_score">
