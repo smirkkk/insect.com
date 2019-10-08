@@ -63,9 +63,6 @@ class SearchView(View):
             return redirect('/unknown?summoner_name='+summoner_name)
 
         last_refresh = timezone.now() - summoner.refreshed_date
-        print(summoner.refreshed_date)
-        print(timezone.now())
-        print(last_refresh.days)
 
         if last_refresh.days >= 7:
             # 갱신 시간별로 삭제하고 새로 조회할지 냅둘지 만들어야함
@@ -77,19 +74,16 @@ class SearchView(View):
             else:
                 RankGameResult.objects.filter(summoner=summoner).delete()
                 create_rank_result(result, summoner)
-            summoner.refreshed_date = timezone.now()
-            summoner.save()
         else:
             pass
-        context['summoner'] = summoner
+        context['summoner'] = Summoner.objects.get(id=summoner.id)
         context['rank_result'] = RankGameResult.objects.filter(summoner=summoner).order_by('-games')
 
         score_dict = {}
         score_object = Score.objects.filter(target=summoner)
         score_count = score_object.count()
         score_sum = score_object.aggregate(Sum('score'))
-        print(score_sum)
-        print(score_count)
+
         if score_count > 0:
             score_dict['average'] = round(score_sum['score__sum'] / score_count, 2)
             score_dict['count'] = score_count
@@ -125,8 +119,6 @@ class RefreshView(View):
         else:
             RankGameResult.objects.filter(summoner=summoner).delete()
             create_rank_result(result, summoner)
-        summoner.refreshed_date = timezone.now()
-        summoner.save()
 
         return HttpResponse(json.dumps(context), content_type="application/json")
 

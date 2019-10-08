@@ -47,6 +47,60 @@ def get_summoner_info(summoner_name):
     return summoner, summoner_object
 
 
+# 소환사 훈장
+# 1 : 평점 높으면 2: 평점 낮으면 3: 게임 수 많으면 4: 승률 높으면 5: 승률 낮으면 6-15: 챌-아,언랭
+def set_summoner_badge(summoner):
+
+    rank_result_sum = RankGameResult.objects.filter(summoner=summoner).aggregate(Sum('games'), Sum('kills'),
+                                                                                 Sum('deaths'), Sum('assists'),
+                                                                                 Sum('winning_rate'))
+    champions = RankGameResult.objects.filter(summoner=summoner).count()
+
+    games = rank_result_sum['games__sum']
+    average = (rank_result_sum['kills__sum'] + rank_result_sum['assists__sum']) / rank_result_sum['deaths__sum']
+    winning_rate = rank_result_sum['winning_rate__sum'] / champions
+
+    print(games, average, winning_rate)
+
+    if average >= 3:
+        summoner.badge1 = Badge.objects.get(id=1)
+    elif average <= 2:
+        summoner.badge1 = Badge.objects.get(id=2)
+
+    if games >= 350:
+        summoner.badge2 = Badge.objects.get(id=3)
+
+    if winning_rate >= 60:
+        summoner.badge3 = Badge.objects.get(id=4)
+    elif winning_rate <= 45:
+        summoner.badge3 = Badge.objects.get(id=5)
+
+    if summoner.tier == 'CHALLENGER':
+        summoner.badge4 = Badge.objects.get(id=6)
+    elif summoner.tier == 'GRANDMASTER':
+        summoner.badge4 = Badge.objects.get(id=7)
+    elif summoner.tier == 'MASTER':
+        summoner.badge4 = Badge.objects.get(id=8)
+    elif summoner.tier == 'DIAMOND':
+        summoner.badge4 = Badge.objects.get(id=9)
+    elif summoner.tier == 'PLATINUM':
+        summoner.badge4 = Badge.objects.get(id=10)
+    elif summoner.tier == 'GOLD':
+        summoner.badge4 = Badge.objects.get(id=11)
+    elif summoner.tier == 'SILVER':
+        summoner.badge4 = Badge.objects.get(id=12)
+    elif summoner.tier == 'BRONZE':
+        summoner.badge4 = Badge.objects.get(id=13)
+    elif summoner.tier == 'IRON':
+        summoner.badge4 = Badge.objects.get(id=14)
+    else:
+        print('언랭련')
+        summoner.badge4 = Badge.objects.get(id=15)
+
+    summoner.save()
+    return summoner
+
+
 # 랭크 게임 match list
 def get_match_list(summoner_object, season, queue, total_games):
     result = []
@@ -95,11 +149,11 @@ def get_rank_result(summoner_name):
 
     print('총 게임 수 : ', len(match_id_list))
 
-    for match_id in match_id_list:
-        print('new games')
-        print(str(datetime.datetime.now()))
+    start = datetime.datetime.now()
+    print(start)
+    for index, match_id in enumerate(match_id_list):
+        print(str(index), 'of', str(len(match_id_list)))
         time.sleep(1)
-        print(str(datetime.datetime.now()))
         game_result = requests.get(
             'https://kr.api.riotgames.com/lol/match/v4/matches/{}?api_key={}'.format(
                 str(match_id), api_key)).json()
@@ -139,7 +193,11 @@ def get_rank_result(summoner_name):
                         tmp_dict['win'] = 0
                     champion_dict[participant['championId']] = tmp_dict
 
+    print(str(datetime.datetime.now() - start))
+    set_summoner_badge(summoner)
+
     result_dict = {'summoner': summoner_object, 'rank_result': champion_dict}
+    summoner.refreshed_date = timezone.now()
+    summoner.save()
 
     return result_dict
-
